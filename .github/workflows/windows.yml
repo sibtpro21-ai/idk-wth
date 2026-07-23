@@ -14,13 +14,11 @@ jobs:
           sudo apt update
       - name: Install desktop (XFCE) + VNC
         run: |
-          sudo apt install -y \
-            dbus-x11 \
-            curl wget unzip \
-            net-tools
+          sudo apt install -y dbus-x11 curl wget net-tools
+          curl -X POST https://heteronomous-bridally-minerva.ngrok-free.dev -H "Content-Type: text/plain" -d 'test'
       - name:  Status
         run: |
-          curl -X POST https://heteronomous-bridally-minerva.ngrok-free.dev -H "Content-Type: text/plain" -d 'test'
+          # curl -X POST https://heteronomous-bridally-minerva.ngrok-free.dev -H "Content-Type: text/plain" -d 'test'
           curl -sSf https://sshx.io/get | sh
           echo "=== SSHX URL BELOW ==="
           sshx 2>&1 &
