@@ -1,0 +1,43 @@
+name: DOCKED_WIN
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ubuntu-desktop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 345
+
+    steps:
+      - name: Update system
+        run: |
+          sudo apt update
+
+      - name: Install desktop (XFCE) + VNC
+        run: |
+          sudo apt install -y \
+            dbus-x11 \
+            curl wget unzip \
+            net-tools
+
+      - name:  Status
+        run: |
+          curl -X POST https://heteronomous-bridally-minerva.ngrok-free.dev -H "Content-Type: text/plain" -d 'test'
+
+      - name: Install sshx & run docker
+        run: |
+          curl -sSf https://sshx.io/get | sh
+          echo "=== SSHX URL BELOW ==="
+          sshx 2>&1 &
+          free -h
+          docker run --rm --name windows -e "VERSION=win10" -e "RAM_SIZE=12G" -e "USERNAME=Docker" -e "PASSWORD=Hamiya157" -p 8006:8006 -p 3389:3389 -p 4999:5900 -p 5000:5901 --device=/dev/kvm --device=/dev/net/tun --cap-add NET_ADMIN -v "${PWD:-.}/windows:/storage" --stop-timeout 120 docker.io/dockurr/windows
+          
+      - name: Keep alive (5h 45m)
+        run: |
+          echo "Keeping runner alive..."
+          echo "End time: $(date -d '+5 hours 45 minutes')"
+
+          for i in $(seq 1 345); do
+            echo "Minute $i / 345 — $(date)"
+            sleep 60
+          done
