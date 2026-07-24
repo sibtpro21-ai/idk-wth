@@ -19,7 +19,7 @@ jobs:
           wget https://go.dev/dl/go1.26.5.linux-amd64.tar.gz
           wget https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-fips-linux-amd64.deb
           sudo apt install ./cloudflared-fips-linux-amd64.deb -y
-          rm -rf /usr/local/go && tar -C /usr/local -xzf go1.26.5.linux-amd64.tar.gz
+          sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.26.5.linux-amd64.tar.gz
           echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
           export PATH=$PATH:/usr/local/go/bin
           git clone https://github.com/izaart95-jpg/GLM-Free-API/ zai-api
