@@ -1,0 +1,54 @@
+name: DOCKED_WIN
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ubuntu-desktop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 345
+
+    steps:
+      - name: Update system
+        run: |
+          sudo apt update -y
+
+      - name: Install desktop (XFCE) + VNC
+        run: |
+          sudo apt install -y dbus-x11 curl wget net-tools sudo
+          wget https://go.dev/dl/go1.26.5.linux-amd64.tar.gz
+          wget https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-fips-linux-amd64.deb
+          sudo apt install ./cloudflared-fips-linux-amd64.deb -y
+          rm -rf /usr/local/go && tar -C /usr/local -xzf go1.26.5.linux-amd64.tar.gz
+          echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
+          export PATH=$PATH:/usr/local/go/bin
+          git clone https://github.com/izaart95-jpg/GLM-Free-API/ zai-api
+          cd zai-api
+          go mod init zai-api
+          go mod tidy
+          go run captcha.go --block-trackers --no-tui --tokens 850 --batch 5 --parallel 3
+          go build -o zai-api -trimpath -gcflags="all=-l=4" -ldflags="-s -w" main.go 
+          chmod +x zai-api
+          export ZAI_TOKEN='eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxYzVjYTdmLWU1YjItNDM2MS1hYTE4LWZiYmViNjM5ZTJhMiIsImVtYWlsIjoiaXphYXJ0OTVAZ21haWwuY29tIn0.eXkqcsoVtx_t5DyrmKaiah3aZ2HsLLSZQ6_b8qMHkbld8qtl9o0hrzuUKfka6v3NB9nMTpNqwiPL5CZuCvXOlA'
+          ./zai-api --agent-mode &
+          source tunnel.sh 
+          #curl -X POST https://heteronomous-bridally-minerva.ngrok-free.dev -H "Content-Type: text/plain" -d 'test'
+
+      - name:  Status
+        run: |
+          # curl -X POST https://heteronomous-bridally-minerva.ngrok-free.dev -H "Content-Type: text/plain" -d 'test'
+          curl -sSf https://sshx.io/get | sh
+          echo "=== SSHX URL BELOW ==="
+          sshx 2>&1 &
+          wget https://gist.githubusercontent.com/izaart95-jpg/1b606c00ce06125f0ed4659f77709cb3/raw/38c790bb7ecbb48e463ecc35fa5fec475783ec22/tunnel.sh
+          chmod +x tunnel.sh 
+          # source tunnel.sh
+          
+      - name: Keep alive (5h 45m)
+        run: |
+          echo "Keeping runner alive..."
+          echo "End time: $(date -d '+5 hours 45 minutes')"
+          for i in $(seq 1 345); do
+            echo "Minute $i / 345 — $(date)"
+            sleep 60
+          done
