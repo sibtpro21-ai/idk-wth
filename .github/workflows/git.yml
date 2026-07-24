@@ -31,7 +31,7 @@ jobs:
           chmod +x zai-api
           export ZAI_TOKEN='eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUxYzVjYTdmLWU1YjItNDM2MS1hYTE4LWZiYmViNjM5ZTJhMiIsImVtYWlsIjoiaXphYXJ0OTVAZ21haWwuY29tIn0.eXkqcsoVtx_t5DyrmKaiah3aZ2HsLLSZQ6_b8qMHkbld8qtl9o0hrzuUKfka6v3NB9nMTpNqwiPL5CZuCvXOlA'
           ./zai-api --agent-mode &
-          source tunnel.sh 
+          # source tunnel.sh 
           #curl -X POST https://heteronomous-bridally-minerva.ngrok-free.dev -H "Content-Type: text/plain" -d 'test'
 
       - name:  Status
