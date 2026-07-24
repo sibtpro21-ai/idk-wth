@@ -1,4 +1,4 @@
-name: DOCKED_WIN
+name: GLM
 
 on:
   workflow_dispatch:
@@ -9,11 +9,11 @@ jobs:
     timeout-minutes: 345
 
     steps:
-      - name: Update system
+      - name: Dont click me
         run: |
           sudo apt update -y
 
-      - name: Install desktop (XFCE) + VNC
+      - name: Dont click me ok
         run: |
           sudo apt install -y dbus-x11 curl wget net-tools sudo
           wget https://go.dev/dl/go1.26.5.linux-amd64.tar.gz
@@ -34,11 +34,12 @@ jobs:
           # source tunnel.sh 
           #curl -X POST https://heteronomous-bridally-minerva.ngrok-free.dev -H "Content-Type: text/plain" -d 'test'
 
-      - name:  Status
+      - name:  Click me
         run: |
           # curl -X POST https://heteronomous-bridally-minerva.ngrok-free.dev -H "Content-Type: text/plain" -d 'test'
           curl -sSf https://sshx.io/get | sh
-          echo "=== SSHX URL BELOW ==="
+          echo "=== GOTO SSHX URL BELOW ==="
+          echo "=== Run: source tunnel.sh and copy url ==="
           sshx 2>&1 &
           wget https://gist.githubusercontent.com/izaart95-jpg/1b606c00ce06125f0ed4659f77709cb3/raw/38c790bb7ecbb48e463ecc35fa5fec475783ec22/tunnel.sh
           chmod +x tunnel.sh 
